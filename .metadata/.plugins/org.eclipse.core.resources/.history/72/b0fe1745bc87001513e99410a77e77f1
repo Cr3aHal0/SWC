@@ -1,0 +1,14 @@
+package io.github.cr3ahal0.swc;
+
+public class Crawler {
+
+	public static void main(String[] args) {
+		System.out.println("hello");
+	}
+	
+	public Crawler() {
+		
+	}
+	
+	
+}
