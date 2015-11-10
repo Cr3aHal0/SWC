@@ -1,0 +1,35 @@
+package io.github.cr3ahal0.swc;
+
+public class Crawler {
+
+	private final static int MAX_DEPTH = 20;
+	
+	class Job implements Runnable
+	{
+
+		public Job(String url) {
+			
+		}
+		
+		public void run() {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		String url = "http://google.com";
+		
+		Crawler c = new Crawler();
+		c.crawl(url);
+	}
+	
+	public Crawler() {
+		System.out.println("hello");
+	}
+	
+	public void crawl(String url) {
+		
+	}
+	
+}

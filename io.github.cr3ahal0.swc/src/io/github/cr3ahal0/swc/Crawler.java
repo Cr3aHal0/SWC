@@ -1,19 +1,82 @@
 package io.github.cr3ahal0.swc;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Crawler {
 
+	private final static int MAX_DEPTH = 20;
+	
+	private Map<String, Set<String>> results;
+	
+	/**
+	 * TODO : parallelize first depth
+	 */
+	class Job implements Runnable
+	{
+
+		public Job(String url) {
+			
+		}
+		
+		public void run() {
+			
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		String url = "http://google.com";
 		
 		Crawler c = new Crawler();
-		c.crawl(url);
+		c.crawl(url, 1);
 	}
 	
 	public Crawler() {
-		System.out.println("hello");
+		results = new HashMap<String, Set<String>>();
 	}
 	
-	public void crawl(String url) {
+	/**
+	 * Crawl url until max. depth reached
+	 * @param url the web address we want to explore
+	 * @param depth the current depth
+	 */
+	public void crawl(String url, int depth) {
+		if (depth > MAX_DEPTH) {
+			return;
+		}
+		
+		Set<String> found = new HashSet<String>();
+		
+		/**
+		 * TODO : get HTML string content from url
+		 */
+		String html = "";
+		
+		Pattern p = Pattern.compile("href=\"(.*?)\"");
+		Matcher m = p.matcher(html);
+
+		while (m.find()) {
+			found.add(m.group(1));
+		}
+		
+		for (String aUri : found) {
+			
+			Set<String> actual = results.get(aUri);
+			if (actual == null) {
+				actual = new HashSet<String>();
+			}
+			
+			actual.add(url);
+			
+			results.put(aUri, actual);
+			
+			crawl(aUri, depth+1);
+		}
 		
 	}
 	

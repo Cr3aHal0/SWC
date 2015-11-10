@@ -1,0 +1,48 @@
+package io.github.cr3ahal0.swc;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Crawler {
+
+	private final static int MAX_DEPTH = 20;
+	
+	private Map<String, Set<String>>() results;
+	
+	class Job implements Runnable
+	{
+
+		public Job(String url) {
+			
+		}
+		
+		public void run() {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		String url = "http://google.com";
+		
+		Crawler c = new Crawler();
+		c.crawl(url, 1);
+	}
+	
+	public Crawler() {
+		System.out.println("hello");
+	}
+	
+	public void crawl(String url, int depth) {
+		if (depth > MAX_DEPTH) {
+			return;
+		}
+		
+		List<String> found = new ArrayList<String>();
+		for (String aUri : found) {
+			crawl(aUri, depth+1);
+		}
+		
+	}
+	
+}
