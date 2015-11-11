@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,6 +41,8 @@ public class Crawler {
 		public Job(String url) {
 			
 		}
+<<<<<<< HEAD
+=======
 		
 		public void run() {
 			
@@ -48,8 +51,18 @@ public class Crawler {
 	}
 	
 	public static void main(String[] args) {
-		String url = "http://www.mkyong.com/";
+		String url = "http://google.com";
+>>>>>>> 03c65fe3c8c88d8272513d477f86a931c520b360
 		
+		public void run() {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		String url = "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal";
+				
 		Crawler c = new Crawler();
 		c.crawl(url, 1);
 		
@@ -58,23 +71,72 @@ public class Crawler {
 	
 	public Crawler() {
 		results = new HashMap<String, Set<String>>();
+<<<<<<< HEAD
 		explored = new HashSet<String>();
+=======
+>>>>>>> 03c65fe3c8c88d8272513d477f86a931c520b360
 	}
 	
 	/**
 	 * Crawl url until max. depth reached
+<<<<<<< HEAD
 	 * @param link the web address we want to explore
 	 * @param depth the current depth
 	 */
 	public void crawl(String link, int depth) {
 		
+		//Do not continue if the limit of iterations has been crossed
 		if (end) {
 			return;
 		}
 		
+		//Do not continue if we are too deep
+		if (depth > MAX_DEPTH) {
+			return;
+=======
+	 * @param url the web address we want to explore
+	 * @param depth the current depth
+	 */
+	public void crawl(String url, int depth) {
 		if (depth > MAX_DEPTH) {
 			return;
 		}
+		
+		Set<String> found = new HashSet<String>();
+		
+		/**
+		 * TODO : get HTML string content from url
+		 */
+		String html = "";
+		
+		Pattern p = Pattern.compile("href=\"(.*?)\"");
+		Matcher m = p.matcher(html);
+
+		while (m.find()) {
+			found.add(m.group(1));
+		}
+		
+		for (String aUri : found) {
+			
+			Set<String> actual = results.get(aUri);
+			if (actual == null) {
+				actual = new HashSet<String>();
+			}
+			
+			actual.add(url);
+			
+			results.put(aUri, actual);
+			
+			crawl(aUri, depth+1);
+>>>>>>> 03c65fe3c8c88d8272513d477f86a931c520b360
+		}
+		
+		//If this page has already been explored, we skipt it
+		if (explored.contains(link)) {
+			return;
+		}
+		
+		explored.add(link);
 		
 		try {
 			
@@ -92,10 +154,11 @@ public class Crawler {
 			
 			
 			URLConnection conn = url.openConnection();
-	
+			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+			
 			BufferedReader br = new BufferedReader(
 	                           new InputStreamReader(conn.getInputStream()));
-	
+			
 			String html;
 				
 			nbRun++;
@@ -105,9 +168,9 @@ public class Crawler {
 				return;
 			}
 
+			//We consider crawling a page when she's available only
 			System.out.println("Crawling " + link + " ...");
 			
-			explored.add(link);
 			
 			while ((html = br.readLine()) != null) {
 
@@ -116,8 +179,13 @@ public class Crawler {
 
 				while (m.find()) {
 					String got = m.group(1);
+					//Try to build a simple URL if not absolute
 					if (got.startsWith("/")) {
 						got = baseUrl.getProtocol() + "://" + baseUrl.getAuthority() + got;
+					}
+					//Disable local link
+					else if (got.startsWith("#")) {
+						continue;
 					}
 					found.add(got);
 				}
@@ -141,9 +209,11 @@ public class Crawler {
 			br.close();
 			
 		} catch (MalformedURLException e) {
-			System.out.println("URL strange "+ link);
+			System.out.println("Strange url : "+ link);
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Unable to fetch "+ link);
+			System.out.println("Unable to fetch : "+ link);
+			e.printStackTrace();
 		} 
 		
 	}

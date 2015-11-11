@@ -1,8 +1,6 @@
 package io.github.cr3ahal0.swc;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -46,6 +44,7 @@ public class Crawler {
 		}
 		
 	}
+	
 	
 	public static void main(String[] args) {
 		String url = "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal";
